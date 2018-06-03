@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+  <h1>Listing Posts</h1><br>
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Num</th>
+      <th scope="col">Title</th>
+      <th scope="col">Email</th>
+      <th scope="col">Hashstring</th>
+      <th scope="col">비고</th>      
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+  <%# 공지 사항 게시글만 보여짐. %>
+  <tbody>
+    <% @posts.each do |post| %>
+      <% if post.notice == true %>
+        <tr>
+          <td><%= post.id %></td>
+          <td><%= post.title %></td>
+          <td><%= post.content %></td>
+          <td><%= post.hashstring %></td>
+          <td><%= link_to 'Show', post %></td>
+       </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+  
+  <%# 공지 사항 + 일반 게시글이 보여짐. %>
+  <tbody>
+    <% @posts.each do |post| %>
+        <tr>
+          <td><%= post.id %></td>
+          <td><%= post.title %></td>
+          <td><%= post.content %></td>
+          <td><%= post.hashstring %></td>
+          <td><%= link_to 'Show', post %></td>
+       </tr>
+    <% end %>
+  </tbody>
+</table>
+  
+  <%= link_to 'New Post', new_post_path %>
+</div>
+

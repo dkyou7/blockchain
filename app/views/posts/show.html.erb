@@ -1,0 +1,61 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><%= @post.id %>번 글</strong>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</p>
+
+<p>
+  <strong>content:</strong>
+  <%= @post.content %>
+</p>
+
+<p>
+  <strong>hashstring:</strong>
+  <%= @post.hashstring %>
+</p>
+
+
+<br><br>
+<div style="float: left">
+  <% if can? :update, @post %>
+  <%= link_to '수정하기', edit_post_path(@post) %> | 
+  <% end %>
+  <% if can? :destroy, @post %>
+  <%= link_to '삭제하기', @post, method: :delete, method: :delete, data: { confirm: '진짜로 지울건가요???' } %> | 
+  <% end %> 
+  <% if can? :update, @post %>
+            <br><br>
+    <form data-remote="true">
+        포스팅 ID : <input type="text" name="TXID" value="<%=@post.id%>"><br>
+        포스팅 해싱 값 : <input type="text" name="TXdata"value="<%=@post.hashstring%>">
+        <br><br>
+        <p>
+          해당 포스팅의 무결성을 검증하기 위해 블록체인 노드로 해시값을 보냅니다. 제출을 클릭해주세요.
+        </p><strong>->> </strong><input type="submit">
+    </form>
+    
+        해싱 값 : <%= @post.hashstring%>
+        <hr>
+    
+    
+    <script>
+        $("form").submit(function(e){
+            $.ajax({
+              method: "POST",   //form에서 method
+              url: "/posts/hash", //form에서 action
+              data: { TXID: $("input[name=TXID]").val(),
+                      TXdata: $("input[name=TXdata]").val()
+              } //전달할 데이터 body는 input중에 name이 body인 것의 값
+            }).done(function( msg ) {
+                // alert( "Data Saved: " + msg );
+            });
+        })
+    </script>
+<%end%>
+  <%= link_to '목록으로', posts_path %>  
+</div>

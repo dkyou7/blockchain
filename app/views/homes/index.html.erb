@@ -1,0 +1,46 @@
+<div class="container" style="padding-top : 20px">
+    <%= alert %>
+    <%= notice %>
+    <h2 style="font-weight: bold">환영합니다</h2>
+    <% if user_signed_in? %>
+        <div>
+            아이디 : <%= current_user.email %><br/>
+            유저 No. : <%= current_user.id %>
+        </div>
+    <% else %>
+        로그인 되어있지 않음.
+    <% end %>
+<hr>
+<script>
+    $("form").submit(function(e){
+        $.ajax({
+          method: "POST",   //form에서 method
+          url: "/home/new", //form에서 action
+          data: { TXID: $("input[name=TXID]").val(),
+                  TXdata: $("input[name=TXdata]").val()
+          } //전달할 데이터 body는 input중에 name이 body인 것의 값
+        }).done(function( msg ) {
+            // alert( "Data Saved: " + msg );
+        });
+    })
+</script>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Num</th>
+          <th scope="col">Hashing Value</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% @comments.each do |c| %>
+        <tr>
+          <th scope="row"><%=c.id%></th>
+          <td><%= c.hashstring%></td>
+        </tr>
+      </tbody>
+    <% end %>
+    </table>
+    <hr>
+    <button type="button" class="btn btn-outline-info" onClick="location.href='/posts'">데이터 등록</button>
+<br>
+</div>
