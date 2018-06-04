@@ -30,13 +30,14 @@
   <% end %> 
   <% if can? :update, @post %>
             <br><br>
-    <form data-remote="true">
-        포스팅 ID : <input type="text" name="TXID" value="<%=@post.id%>"><br>
-        포스팅 해싱 값 : <input type="text" name="TXdata"value="<%=@post.hashstring%>">
+    <form id="hashing" data-remote="true">
+        포스팅 ID : <input type="text" id="TXID" value="<%=@post.id%>"><br>
+        포스팅 해싱 값 : <input type="text" id="TXdata" value="<%=@post.hashstring%>">
         <br><br>
         <p>
           해당 포스팅의 무결성을 검증하기 위해 블록체인 노드로 해시값을 보냅니다. 제출을 클릭해주세요.
         </p><strong>->> </strong><input type="submit">
+        <
     </form>
     
         해싱 값 : <%= @post.hashstring%>
@@ -44,17 +45,23 @@
     
     
     <script>
-        $("form").submit(function(e){
-            $.ajax({
-              method: "POST",   //form에서 method
-              url: "/posts/hash", //form에서 action
-              data: { TXID: $("input[name=TXID]").val(),
-                      TXdata: $("input[name=TXdata]").val()
-              } //전달할 데이터 body는 input중에 name이 body인 것의 값
-            }).done(function( msg ) {
-                // alert( "Data Saved: " + msg );
-            });
+        $("#hashing").ready(function(){
+        $.ajax({
+          type : 'post', // 타입
+          url : 'http://163.180.117.185:30300/dataShop', // URL
+          dataType : 'application/json', // 데이터 타입
+          data : { // 보낼 데이터
+            "TXID" : "<%=@post.id%>",
+            "TXdata" : "<%=@post.hashstring%>"
+          },
+          success : function(result) { // 결과 성공
+              console.log(result);
+          },
+          error : function(request, status, error) { // 결과 에러
+            console.log(2);
+          }
         })
+      });
     </script>
 <%end%>
   <%= link_to '목록으로', posts_path %>  
