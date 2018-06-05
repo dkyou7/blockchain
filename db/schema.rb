@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180602204927) do
+ActiveRecord::Schema.define(version: 20180605050124) do
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20180602204927) do
     t.boolean  "notice",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image"
   end
 
   create_table "roles", force: :cascade do |t|

@@ -16,6 +16,9 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    require 'digest'
+    @post.hashstring = Digest::SHA256.hexdigest @post.content
+    @post.save
   end
 
   # GET /posts/new
@@ -30,8 +33,8 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    require 'digest'
     @post = Post.new(post_params)
+    require 'digest'
     @post.hashstring = Digest::SHA256.hexdigest @post.content
     @post.save
     respond_to do |format|

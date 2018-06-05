@@ -46,12 +46,13 @@
     
     <script>
         $("#hashing").ready(function(){
+        console.log(1);
         $.ajax({
           type : 'post', // 타입
           url : 'http://163.180.117.185:30300/dataShop', // URL
           dataType : 'application/json', // 데이터 타입
           data : { // 보낼 데이터
-            "TXID" : "<%=@post.id%>",
+            "TXID" : "<%=@post.user_id%>",
             "TXdata" : "<%=@post.hashstring%>"
           },
           success : function(result) { // 결과 성공
